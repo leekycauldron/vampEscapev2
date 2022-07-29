@@ -17,3 +17,4 @@ class Frame():
         sct = mss()
         sct_img = sct.grab(bounding_box)
         return np.array(sct_img), bounding_box
+        

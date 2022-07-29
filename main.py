@@ -3,6 +3,7 @@ import cv2
 
 size_finder = screen_size.ScreenSize()
 size_finder.get_screen_size()
+fast = size_finder.get_fast_mode()
 
 width = size_finder.get_screen_width()
 height = size_finder.get_screen_height()
@@ -18,7 +19,7 @@ while True:
     img,region = frame.get_frame(width, height, x, y)
     cv2.imshow("Test", img)
     
-    btn = buttonLocator.locate((region["left"],region["top"],region["width"],region["height"]))
+    btn = buttonLocator.locate((region["left"],region["top"],region["width"],region["height"]),fast)
 
     if btn != None:
         vInput.press(btn)
@@ -28,3 +29,8 @@ while True:
         break
 
 
+#TODO: Add FPS Counter (arg).
+#TODO: Add aption to show frame (arg).
+#TODO: Add Verbose output (arg) for debugging.  
+#TODO: Add arguments (arg) for fast mode and monitor choice.
+#TODO: Create Documentation for setup/use (README.md & comments).
