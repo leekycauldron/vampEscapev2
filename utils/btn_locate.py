@@ -17,6 +17,7 @@ class ButtonLocate():
 
     def locate(self,region,fast):
         if fast:
+            self.btn = None
             # Get Pixel Color.
             im = pyautogui.screenshot(region=region)
             #im.save('temp.png')
@@ -25,19 +26,19 @@ class ButtonLocate():
             r = color[0]
             g = color[1]
             b = color[2]
-            if r > 150 and g > 100:
+            if r > 200 and g > 180 and b < 10:
                 print("A")
                 self.btn = 1
-            elif g > 150 and b > 200:
+            elif r < 10 and g > 195 and b > 230:
                 print("Space")
                 self.btn = 4
-            elif r > 150 and b > 75:
+            elif r > 210 and g < 10 and b > 90:
                 print("S")
                 self.btn = 2
-            elif g > 150:
+            elif r < 50 and g > 200 and b < 10:
                 print("D")
                 self.btn = 3
-            elif b > 200:
+            elif r < 10 and g < 50 and b > 230:
                 print("W")
                 self.btn = 0
            

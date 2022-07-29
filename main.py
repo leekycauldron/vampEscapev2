@@ -28,7 +28,7 @@ while True:
         cv2.destroyAllWindows()
         break
 
-
+#TODO: Detect Colors that appear even earlier.
 #TODO: Add FPS Counter (arg).
 #TODO: Add aption to show frame (arg).
 #TODO: Add Verbose output (arg) for debugging.  
