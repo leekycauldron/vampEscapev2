@@ -15,13 +15,13 @@ class ButtonLocate():
         loc = pyautogui.locateOnScreen(self.images[id], grayscale=True, confidence=.85,region=region)
         if loc != None: self.btn = id
 
-    def locate(self,region,fast):
+    def locate(self,region,fast,img):
         if fast:
             self.btn = None
             # Get Pixel Color.
-            im = pyautogui.screenshot(region=region)
+            #im = pyautogui.screenshot(region=region)
             #im.save('temp.png')
-            color = im.getpixel((111,80))
+            color = img[80,111]
             # Match to button.
             r = color[0]
             g = color[1]
@@ -41,6 +41,7 @@ class ButtonLocate():
             elif r < 10 and g < 50 and b > 230:
                 print("W")
                 self.btn = 0
+
            
         else:
             threads = []

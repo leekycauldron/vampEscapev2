@@ -1,5 +1,5 @@
 from utils import screen_size, frame, btn_locate, v_input
-import cv2
+import cv2, time
 
 size_finder = screen_size.ScreenSize()
 size_finder.get_screen_size()
@@ -15,11 +15,24 @@ vInput = v_input.VirtualInput()
 
 frame = frame.Frame()
 
+
+count = 0
+now = time.time()
+time.sleep(1)
 while True:
+    count += 1
+    fps = int(count / (time.time() - now))
+    if count > 1000:
+        count = 0
+        now = time.time()
+    print(fps)
+
     img,region = frame.get_frame(width, height, x, y)
-    cv2.imshow("Test", img)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    imgText = cv2.putText(img, f"FPS: {fps}", (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1, cv2.LINE_AA)
+    cv2.imshow("Out", imgText)
     
-    btn = buttonLocator.locate((region["left"],region["top"],region["width"],region["height"]),fast)
+    btn = buttonLocator.locate((region["left"],region["top"],region["width"],region["height"]),fast,img)
 
     if btn != None:
         vInput.press(btn)
@@ -28,8 +41,9 @@ while True:
         cv2.destroyAllWindows()
         break
 
-#TODO: Detect Colors that appear even earlier.
-#TODO: Add FPS Counter (arg).
+
+# Time: 2.36 seconds
+#TODO: Add FPS Counter (arg). 
 #TODO: Add aption to show frame (arg).
 #TODO: Add Verbose output (arg) for debugging.  
 #TODO: Add arguments (arg) for fast mode and monitor choice.
