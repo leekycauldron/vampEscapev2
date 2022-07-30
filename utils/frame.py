@@ -13,6 +13,7 @@ class Frame():
         # width: 1/10 of screen size
         # height: 1/10 of screen size
         # NOTE: Percentages are used to allow for different screen sizes.
+        # These values were calculated using the eyeballing method.
         bounding_box = {'top': int(0.8*height)-int(0.1*height)+y, 'left': int(0.5*width)-int(0.05*width)+x, 'width': int(0.1*width), 'height': int(0.1*height)}
         sct = mss()
         sct_img = sct.grab(bounding_box)

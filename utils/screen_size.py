@@ -11,6 +11,8 @@ class ScreenSize():
         screens = []
         for m in get_monitors():
             screens.append(m)
+
+        # User with one monitor will not have to choose a monitor.
         if len(screens) == 1:
             self.h = screens[0].height
             self.w = screens[0].width
@@ -19,6 +21,7 @@ class ScreenSize():
             print("Screen size is:", str(self.w), "x", str(self.h)+'.')
         else:
             x = 0
+            # If an argument was passed for the monitor then use that option (if valid).
             if monitor is not None:  # If the user specified a monitor in arg.
                 if monitor > len(screens) or monitor < 1:
                     print("Error: Invalid monitor number.")
@@ -26,6 +29,7 @@ class ScreenSize():
        
                 x = int(monitor)
 
+            # If no argument was passed for the monitor then ask the user to choose a monitor.
             else:
                 print("Multiple screens detected. Please select the screen you want to use.")
                 for i in range(len(screens)):
@@ -46,6 +50,9 @@ class ScreenSize():
             self.y = screens[x-1].y
             print(f"Option {x} selected. Screen size is:", str(self.w), "x", str(self.h)+'.')
 
+
+            # This is where the user chooses if they want fast mode or regular mode.
+            # This can be passed as an argument when running the program.
             if mode is not None:
                 print("Entering fast escape program.")
                 self.fast = True
@@ -60,7 +67,7 @@ class ScreenSize():
             else:
                 print("Invalid selection. Entering regular escape program.")
 
-    
+    # Getters.
     def get_screen_height(self):  
         return self.h
     

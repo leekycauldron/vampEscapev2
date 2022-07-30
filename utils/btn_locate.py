@@ -12,6 +12,8 @@ class ButtonLocate():
         self.space = "./assets/space.jpg"
         self.images = [self.w, self.a, self.s, self.d, self.space]
     
+    # This Method is used for the slow locate method.
+    # The images in the assets folder are used to locate the buttons.
     def locateImage(self,id,region,v):
         loc = pyautogui.locateOnScreen(self.images[id], grayscale=True, confidence=.85,region=region)
         if loc != None: 
@@ -23,12 +25,14 @@ class ButtonLocate():
         if fast:
             self.btn = None
             # Get Pixel Color.
-            
+            # This is the fastest method but it is not accurate, false positives are possible.
             color = img[80,111]
             # Match to button.
             r = color[0]
             g = color[1]
             b = color[2]
+            # These values are a range of colors that each button can be.
+            # For example the Spacebar button is mostly light blue so a mix of blue and green will be used.
             if r > 200 and g > 180 and b < 10:
                 self.log.log("A",v)
                 self.btn = 1
@@ -47,6 +51,9 @@ class ButtonLocate():
 
            
         else:
+            # This is the slow method, it uses the images in the assets folder to locate the buttons.
+            # Threading was used to make it faster but made little difference.
+            # Slow mode is not recommended unless fast mode is too inaccurate.
             threads = []
             for i in range(5):
                 t = threading.Thread(target=self.locateImage(i,region,v))

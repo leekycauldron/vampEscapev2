@@ -16,7 +16,7 @@ if args["fps"] is not None and args["image"] is None:
     print("Error: --fps requires --image.")
     exit()
 
-
+# Get all the info needed to run the program: screen size, logger, frame, button locate, and verbose input.
 size_finder = screen_size.ScreenSize()
 size_finder.get_screen_size(args["monitor"],args["mode"])
 fast = size_finder.get_fast_mode()
@@ -35,7 +35,7 @@ frame = frame.Frame()
 
 
 
-
+# Initialize the FPS counter.
 count = 0
 now = time.time()
 delay  = time.time() # used to print fps every x seconds on verbose output.
@@ -44,6 +44,7 @@ time.sleep(1)
 
     
 while True:
+    # Get the image.
     img,region = frame.get_frame(width, height, x, y)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
@@ -59,6 +60,7 @@ while True:
         delay = time.time()
         log.log(f"FPS: {fps}",args["verbose"])
     
+    # Display the image and/or FPS counter if specified as an argument.
     if args["image"] is not None:
         if args["fps"] is not None:
             imgText = cv2.putText(img, f"FPS: {fps}", (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1, cv2.LINE_AA)
@@ -67,17 +69,17 @@ while True:
         
         cv2.imshow("Out", imgText)
     
+    # Find the button and press it if one exists..
     btn = buttonLocator.locate((region["left"],region["top"],region["width"],region["height"]),fast,img,args["verbose"])
 
     if btn != None:
         vInput.press(btn)
     
+
+    # Used only for when the image is displayed.
     if args["image"] is not None:
         if cv2.waitKey(1) & 0xFF == ord('q'):
             cv2.destroyAllWindows()
             break
 
-
 # Recorded Escape Time(s): 2.36 seconds.
-
-#TODO: Create Documentation for setup/use (README.md & comments).
