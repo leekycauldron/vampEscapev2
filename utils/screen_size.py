@@ -1,6 +1,3 @@
-from numpy import str0
-
-
 class ScreenSize():
     def __init__(self):
         self.h = 0
@@ -9,7 +6,7 @@ class ScreenSize():
         self.y = 0 # for offsets
         self.fast = False
 
-    def get_screen_size(self):
+    def get_screen_size(self,monitor=None,mode=None):
         from screeninfo import get_monitors
         screens = []
         for m in get_monitors():
@@ -21,25 +18,38 @@ class ScreenSize():
             self.y = screens[0].y
             print("Screen size is:", str(self.w), "x", str(self.h)+'.')
         else:
-            print("Multiple screens detected. Please select the screen you want to use.")
-            for i in range(len(screens)):
-                print(f"[{i+1}] - Name: {screens[i].name}, Width: {screens[i].width}, Height: {screens[i].height}")
-            while True:
-                try:
-                    x = int(input("Select screen: "))
-                    if x > len(screens) or x < 1:
+            x = 0
+            if monitor is not None:  # If the user specified a monitor in arg.
+                if monitor > len(screens) or monitor < 1:
+                    print("Error: Invalid monitor number.")
+                    exit()
+       
+                x = int(monitor)
+
+            else:
+                print("Multiple screens detected. Please select the screen you want to use.")
+                for i in range(len(screens)):
+                    print(f"[{i+1}] - Name: {screens[i].name}, Width: {screens[i].width}, Height: {screens[i].height}")
+                while True:
+                    try:
+                        x = int(input("Select screen: "))
+                        if x > len(screens) or x < 1:
+                            print("Invalid selection.")
+                            continue
+                        break
+                    except ValueError:
                         print("Invalid selection.")
                         continue
-                    break
-                except ValueError:
-                    print("Invalid selection.")
-                    continue
             self.h = screens[x-1].height
             self.w = screens[x-1].width
             self.x = screens[x-1].x
             self.y = screens[x-1].y
             print(f"Option {x} selected. Screen size is:", str(self.w), "x", str(self.h)+'.')
 
+            if mode is not None:
+                print("Entering fast escape program.")
+                self.fast = True
+                return
             fast = input("Do you want to enable fast mode? (Unstable) [y/n]: ")
             if fast.lower() == "n":
                 print("Entering regular escape program.")
